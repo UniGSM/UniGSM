@@ -1,0 +1,6 @@
+@GsmApi_HostAddress = http://localhost:5174
+
+GET {{GsmApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
