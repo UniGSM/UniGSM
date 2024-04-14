@@ -17,7 +17,7 @@ public class LocalRepository : IBackupRepository
         _backupPath = Path.Join(path, "backups");
     }
 
-    public void Backup(Server server)
+    public async Task Backup(Server server)
     {
         _logger.LogInformation("Backing up server {} to local storage", server.Id);
         var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -32,7 +32,7 @@ public class LocalRepository : IBackupRepository
         _logger.LogInformation("Backup complete");
     }
 
-    public void Restore(Server server)
+    public async Task Restore(Server server)
     {
         _logger.LogInformation("Restoring server {} from local storage", server.Id);
         var backupFile = Directory.GetFiles(_backupPath).OrderByDescending(f => f).First();

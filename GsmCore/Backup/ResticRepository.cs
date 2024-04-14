@@ -15,7 +15,7 @@ public class ResticRepository : IBackupRepository
         _resticUtil = resticUtil;
     }
 
-    public void Backup(Server server)
+    public async Task Backup(Server server)
     {
         _logger.LogInformation("Backing up server {} to restic storage", server.Id);
 
@@ -37,7 +37,7 @@ public class ResticRepository : IBackupRepository
         _logger.LogInformation("Backup complete");
     }
 
-    public void Restore(Server server)
+    public async Task Restore(Server server)
     {
         _logger.LogInformation("Restoring server {} from restic storage", server.Id);
         var repository = "restic-repo";

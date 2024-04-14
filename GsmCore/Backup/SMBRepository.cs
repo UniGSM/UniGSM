@@ -19,14 +19,14 @@ public class SMBRepository : IBackupRepository
         _credentials = new NetworkCredential(userName, password);
     }
 
-    public void Backup(Server server)
+    public async Task Backup(Server server)
     {
         _logger.LogInformation("Backing up server {} to smb storage", server.Id);
 
         _logger.LogInformation("Backup complete");
     }
 
-    public void Restore(Server server)
+    public async Task Restore(Server server)
     {
         _logger.LogInformation("Restoring server {} from smb storage", server.Id);
         _logger.LogInformation("Restore complete");
