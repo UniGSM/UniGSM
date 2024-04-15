@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using GsmCore.Model;
 using GsmCore.Repository;
+using GsmCore.Util;
 
 namespace GsmCore.Service;
 
-public class ServerService(GsmDbContext dbContext)
+public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient)
 {
     public Server CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort, uint slots = 32)
     {
@@ -23,9 +24,9 @@ public class ServerService(GsmDbContext dbContext)
         return server;
     }
 
-    public void StartServer(Server server)
+    public async Task StartServer(Server server)
     {
-        if (server.AutoUpdate) UpdateServer(server);
+        if (server.AutoUpdate) await UpdateServer(server);
     }
 
     public void StopServer(Server server)
@@ -36,8 +37,11 @@ public class ServerService(GsmDbContext dbContext)
     {
     }
 
-    private void UpdateServer(Server server)
+    private async Task UpdateServer(Server server)
     {
-        
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonPrograms;
+        var serverPath = Path.Combine(Environment.GetFolderPath(folder), "servers", server.Id.ToString());
+
+        await steamCmdClient.UpdateGame(serverPath, server.AppId);
     }
 }

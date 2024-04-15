@@ -49,6 +49,6 @@ public class SteamCmdClient(ILogger logger)
         ZipFile.ExtractToDirectory(tempFile, steamCmdPath);
         File.Delete(tempFile);
 
-        logger.LogInformation("Installation complete");
+        logger.LogInformation("Installation of steamcmd complete");
     }
 }

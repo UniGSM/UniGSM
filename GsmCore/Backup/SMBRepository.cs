@@ -36,7 +36,7 @@ public class SMBRepository : IBackupRepository
     {
         SMB2Client client = new SMB2Client();
 
-        (var isConnected, var errorMessage) = await client.ConnectAsync(IPAddress.Loopback,
+        var (isConnected, errorMessage) = await client.ConnectAsync(IPAddress.Loopback,
             SMBTransportType.DirectTCPTransport, new CancellationToken());
         if (!isConnected)
         {
