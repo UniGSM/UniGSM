@@ -5,7 +5,7 @@ using SMBLibrary;
 using SMBLibrary.Client;
 using FileAttributes = SMBLibrary.FileAttributes;
 
-namespace GsmCore.Utils;
+namespace GsmCore.Util;
 
 public class SmbClient
 {

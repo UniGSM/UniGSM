@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GsmCore.Models;
+namespace GsmCore.Model;
 
 [PrimaryKey(nameof(Id))]
 public abstract class BaseModel

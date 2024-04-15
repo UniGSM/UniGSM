@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GsmCore.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace GsmCore;
 
 public class GsmDbContext : DbContext
 {
-    public DbSet<Models.Server> Servers { get; set; }
-    public DbSet<Models.Setting> Settings { get; set; }
+    public DbSet<Server> Servers { get; set; }
+    public DbSet<Setting> Settings { get; set; }
 
     private string DbPath { get; }
 

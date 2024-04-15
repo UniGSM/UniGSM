@@ -1,5 +1,5 @@
 ﻿using System.IO.Compression;
-using GsmCore.Models;
+using GsmCore.Model;
 using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Backup;

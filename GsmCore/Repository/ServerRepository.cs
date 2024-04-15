@@ -1,7 +1,7 @@
-﻿using GsmCore.Models;
+﻿using GsmCore.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace GsmCore.Repositories;
+namespace GsmCore.Repository;
 
 public class ServerRepository : IServerRepository
 {

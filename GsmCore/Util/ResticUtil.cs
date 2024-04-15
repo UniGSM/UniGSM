@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace GsmCore.Utils;
+namespace GsmCore.Util;
 
 public class ResticUtil
 {

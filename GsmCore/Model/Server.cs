@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GsmCore.Models;
+namespace GsmCore.Model;
 
 public class Server : BaseModel
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GsmCore.Models;
+namespace GsmCore.Model;
 
 [PrimaryKey(nameof(Key))]
 public class Setting

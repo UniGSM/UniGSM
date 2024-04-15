@@ -1,5 +1,5 @@
-﻿using GsmCore.Models;
-using GsmCore.Utils;
+﻿using GsmCore.Model;
+using GsmCore.Util;
 using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Backup;

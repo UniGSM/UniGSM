@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using GsmCore.Models;
-using GsmCore.Repositories;
+using GsmCore.Model;
+using GsmCore.Repository;
 
 namespace GsmCore.Service;
 
