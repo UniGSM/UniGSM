@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmApi", "GsmApi\GsmApi.csproj", "{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmManager", "GsmManager\GsmManager.csproj", "{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmCore", "GsmCore\GsmCore.csproj", "{52F7E170-C91A-4701-98EB-FDC5DE714624}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
