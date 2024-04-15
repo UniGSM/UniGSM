@@ -9,18 +9,21 @@ public class SftpRepository : IBackupRepository
 {
     private readonly ILogger _logger;
     private readonly CancellationTokenSource _cancellationTokenSource;
+    private readonly Dictionary<string, object> _data;
 
-    public SftpRepository(ILogger logger, CancellationTokenSource cancellationTokenSource)
+    public SftpRepository(ILogger logger, CancellationTokenSource cancellationTokenSource,
+        Dictionary<string, object> Data)
     {
         _logger = logger;
         _cancellationTokenSource = cancellationTokenSource;
+        _data = Data;
     }
 
     public async Task Backup(Server server)
     {
         _logger.LogInformation("Backing up server {} to sftp storage", server.Id);
 
-        var sftpClient = await CreateSftpSession();
+        var sftpClient = await CreateSftpSession((string)_data["host"], GetAuthenticationMethod());
         var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
         var backupFile = $"server{server.Id}-{timeStamp}.zip";
         using var archive = ZipFile.Open(backupFile, ZipArchiveMode.Create);
@@ -43,7 +46,7 @@ public class SftpRepository : IBackupRepository
     {
         _logger.LogInformation("Restoring server {} from sftp storage", server.Id);
 
-        var sftpClient = await CreateSftpSession();
+        var sftpClient = await CreateSftpSession((string)_data["host"], GetAuthenticationMethod());
         var backupFile = sftpClient.ListDirectory("/").OrderByDescending(f => f.LastWriteTime).First().Name;
         await using var fileStream = File.OpenWrite(backupFile);
         sftpClient.DownloadFile(backupFile, fileStream);
@@ -61,22 +64,27 @@ public class SftpRepository : IBackupRepository
         _logger.LogInformation("Restore complete");
     }
 
-    private async Task<SftpClient> CreateSftpSession(string host, string username, string password,
-        string privateKeyPath = "")
+    private async Task<SftpClient> CreateSftpSession(string host, AuthenticationMethod authenticationMethod)
     {
         SftpClient client;
-        if (string.IsNullOrEmpty(privateKeyPath))
-        {
-            client = new SftpClient(host, username, password);
-        }
-        else
-        {
-            var privateKeySource = new PrivateKeyFile(privateKeyPath);
-            client = new SftpClient(host, username, privateKeySource);
-        }
+        var connectionInfo = new ConnectionInfo(host, authenticationMethod.Username, authenticationMethod);
+        client = new SftpClient(connectionInfo);
 
         await client.ConnectAsync(_cancellationTokenSource.Token);
 
         return client;
+    }
+
+    private AuthenticationMethod GetAuthenticationMethod()
+    {
+        var privateKeyPath = (string)_data["privateKeyPath"];
+        if (string.IsNullOrEmpty(privateKeyPath))
+        {
+            return new PasswordAuthenticationMethod((string)_data["username"],
+                (string)_data["password"]);
+        }
+
+        return new PrivateKeyAuthenticationMethod((string)_data["username"],
+            new PrivateKeyFile(privateKeyPath));
     }
 }

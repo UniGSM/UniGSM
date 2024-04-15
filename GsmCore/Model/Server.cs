@@ -22,4 +22,5 @@ public class Server : BaseModel
     public string AdditionalStartParams { get; set; }
     public string ServerPath { get; set; }
     [DefaultValue(223350)] public uint AppId { get; set; }
+    [DefaultValue("dayzServer_x64.exe")] public string Executable { get; set; }
 }
