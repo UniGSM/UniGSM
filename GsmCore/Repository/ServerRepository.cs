@@ -21,22 +21,23 @@ public class ServerRepository : IServerRepository
 
     public async Task<PagedList<Server>> GetServers(QueryStringParameters parameters)
     {
-        return await PagedList<Server>.ToPagedList(context.Servers.OrderBy(s => s.Id), parameters.PageNumber, parameters.PageSize);
+        return await PagedList<Server>.ToPagedList(context.Servers.OrderBy(s => s.Id), parameters.PageNumber,
+            parameters.PageSize);
     }
 
-    public Server GetServerById(int serverId)
+    public ValueTask<Server?> GetServerById(int serverId)
     {
-        return context.Servers.Find(serverId);
+        return context.Servers.FindAsync(serverId);
     }
 
-    public void InsertServer(Server server)
+    public async Task InsertServer(Server server)
     {
-        context.Servers.Add(server);
+        await context.Servers.AddAsync(server);
     }
 
-    public void DeleteServer(int serverId)
+    public async Task DeleteServer(int serverId)
     {
-        var server = context.Servers.Find(serverId);
+        var server = await context.Servers.FindAsync(serverId);
         context.Servers.Remove(server);
     }
 
@@ -45,9 +46,9 @@ public class ServerRepository : IServerRepository
         context.Entry(server).State = EntityState.Modified;
     }
 
-    public void Save()
+    public async Task Save()
     {
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
     private bool _disposed = false;

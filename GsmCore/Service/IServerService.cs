@@ -5,7 +5,7 @@ namespace GsmCore.Service;
 
 public interface IServerService
 {
-    public Server CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort, uint slots = 32);
+    public Task<Server> CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort, uint slots = 32);
 
     public Task StartServer(Server server);
 
@@ -14,4 +14,6 @@ public interface IServerService
     public Task RestartServer(Server server);
 
     public Task UpdateServer(Server server);
+
+    public Task DeleteServer(Server server);
 }

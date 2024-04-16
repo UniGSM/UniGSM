@@ -11,7 +11,8 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
 {
     private static Dictionary<int, Process> _processes = new();
 
-    public Server CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort, uint slots = 32)
+    public async Task<Server> CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort,
+        uint slots = 32)
     {
         var server = new Server
         {
@@ -23,8 +24,8 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         };
 
         using var serverRepository = new ServerRepository(dbContext);
-        serverRepository.InsertServer(server);
-        serverRepository.Save();
+        await serverRepository.InsertServer(server);
+        await serverRepository.Save();
         return server;
     }
 
@@ -69,5 +70,15 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         var serverPath = Path.Combine(Environment.GetFolderPath(folder), "dayzgsm", "servers", server.Id.ToString());
 
         await steamCmdClient.UpdateGame(serverPath, server.AppId);
+    }
+
+    public async Task DeleteServer(Server server)
+    {
+        logger.LogInformation("Deleting server {}", server.Id);
+        StopServer(server);
+
+        using var serverRepository = new ServerRepository(dbContext);
+        await serverRepository.DeleteServer(server.Id);
+        await serverRepository.Save();
     }
 }
