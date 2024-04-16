@@ -1,6 +1,8 @@
 using GsmApi;
+using GsmCore.Job;
 using GsmCore.Service;
 using GsmCore.Util;
+using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,15 @@ builder.Services.AddSingleton<IServerService, ServerService>();
 builder.Services.AddSingleton<SteamCmdClient>();
 builder.Services.AddSingleton<ResticUtil>();
 builder.Services.AddSingleton<RconClient>();
+builder.Services.AddQuartz(q =>
+{
+    q.UseSimpleTypeLoader();
+    q.UseInMemoryStore();
+    q.UseDefaultThreadPool(tp => { tp.MaxConcurrency = 10; });
+});
+
+builder.Services.AddTransient<CronJob>();
+builder.Services.AddTransient<TaskJob>();
 
 var app = builder.Build();
 
