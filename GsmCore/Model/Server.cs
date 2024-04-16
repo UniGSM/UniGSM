@@ -24,4 +24,6 @@ public class Server : BaseModel
     [DefaultValue(223350)] public uint AppId { get; set; }
     [DefaultValue("dayzServer_x64.exe")] public string Executable { get; set; }
     public string RconPassword { get; set; }
+
+    public ICollection<CronChain> ChronChains { get; } = new List<CronChain>();
 }

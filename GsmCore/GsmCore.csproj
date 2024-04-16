@@ -10,6 +10,8 @@
       <PackageReference Include="BytexDigital.BattlEye.Rcon" Version="1.0.3-preview.1667929841" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+      <PackageReference Include="Quartz" Version="3.8.1" />
+      <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.8.1" />
       <PackageReference Include="SMBLibraryCore.Client" Version="1.7.1" />
       <PackageReference Include="SSH.NET" Version="2024.0.0" />
     </ItemGroup>
