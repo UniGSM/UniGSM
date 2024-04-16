@@ -16,7 +16,7 @@ public class GsmDbContext : DbContext
     {
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
         var path = Environment.GetFolderPath(folder);
-        DbPath = Path.Join(path, "gsm.db");
+        DbPath = Path.Join(path, "dayzgsm", "gsm.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

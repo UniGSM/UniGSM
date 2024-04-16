@@ -34,7 +34,7 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         if (server.AutoUpdate) await UpdateServer(server);
 
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
-        var serverPath = Path.Combine(Environment.GetFolderPath(folder), "servers", server.Id.ToString());
+        var serverPath = Path.Combine(Environment.GetFolderPath(folder), "dayzgsm", "servers", server.Id.ToString());
 
         var process = new Process();
         process.StartInfo.FileName = Path.Combine(serverPath, server.Executable);
@@ -66,7 +66,7 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
     {
         logger.LogInformation("Updating server {}", server.Id);
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
-        var serverPath = Path.Combine(Environment.GetFolderPath(folder), "servers", server.Id.ToString());
+        var serverPath = Path.Combine(Environment.GetFolderPath(folder), "dayzgsm", "servers", server.Id.ToString());
 
         await steamCmdClient.UpdateGame(serverPath, server.AppId);
     }

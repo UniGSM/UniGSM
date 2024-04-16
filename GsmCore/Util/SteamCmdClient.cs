@@ -45,7 +45,7 @@ public class SteamCmdClient(ILogger logger)
         await client.DownloadFileTaskAsync(new Uri(downloadUrl), tempFile);
 
         var path = Environment.GetFolderPath(folder);
-        var steamCmdPath = Path.Combine(path, "steamcmd");
+        var steamCmdPath = Path.Combine(path, "dayzgsm", "steamcmd");
         ZipFile.ExtractToDirectory(tempFile, steamCmdPath);
         File.Delete(tempFile);
 

@@ -10,6 +10,7 @@ public class SftpRepository : IBackupRepository
     private readonly ILogger _logger;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private readonly Dictionary<string, object> _data;
+    private readonly string _serverPath;
 
     public SftpRepository(ILogger logger, CancellationTokenSource cancellationTokenSource,
         Dictionary<string, object> Data)
@@ -17,6 +18,9 @@ public class SftpRepository : IBackupRepository
         _logger = logger;
         _cancellationTokenSource = cancellationTokenSource;
         _data = Data;
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        _serverPath = Path.Join(path, "dayzgsm", "servers");
     }
 
     public async Task Backup(Server server)
@@ -27,7 +31,7 @@ public class SftpRepository : IBackupRepository
         var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
         var backupFile = $"server{server.Id}-{timeStamp}.zip";
         using var archive = ZipFile.Open(backupFile, ZipArchiveMode.Create);
-        var serverFiles = Directory.GetFiles(server.ServerPath);
+        var serverFiles = Directory.GetFiles(_serverPath);
         foreach (var file in serverFiles)
         {
             archive.CreateEntryFromFile(file, Path.GetFileName(file));
@@ -54,7 +58,7 @@ public class SftpRepository : IBackupRepository
         using var archive = ZipFile.OpenRead(backupFile);
         foreach (var entry in archive.Entries)
         {
-            var path = Path.Join(server.ServerPath, entry.FullName);
+            var path = Path.Join(_serverPath, entry.FullName);
             entry.ExtractToFile(path, true);
         }
 

@@ -8,11 +8,15 @@ public class ResticRepository : IBackupRepository
 {
     private readonly ILogger _logger;
     private readonly ResticUtil _resticUtil;
+    private readonly string _serverPath;
 
     public ResticRepository(ILogger logger, ResticUtil resticUtil)
     {
         _logger = logger;
         _resticUtil = resticUtil;
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        _serverPath = Path.Join(path, "dayzgsm", "servers");
     }
 
     public async Task Backup(Server server)
@@ -27,8 +31,7 @@ public class ResticRepository : IBackupRepository
 
         var repository = "restic-repo";
         var password = "password";
-        var source = server.ServerPath;
-        if (!_resticUtil.Backup(repository, password, source))
+        if (!_resticUtil.Backup(repository, password, _serverPath))
         {
             _logger.LogError("Backup failed");
             return;
@@ -42,8 +45,8 @@ public class ResticRepository : IBackupRepository
         _logger.LogInformation("Restoring server {} from restic storage", server.Id);
         var repository = "restic-repo";
         var password = "password";
-        var source = server.ServerPath;
-        if (!_resticUtil.Restore(repository, password, source))
+        
+        if (!_resticUtil.Restore(repository, password, _serverPath))
         {
             _logger.LogError("Restore failed");
             return;

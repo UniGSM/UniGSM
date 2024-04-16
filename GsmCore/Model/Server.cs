@@ -20,7 +20,6 @@ public class Server : BaseModel
     [DefaultValue(true)] public bool AdminLog { get; set; }
     [DefaultValue(true)] public bool NetLog { get; set; }
     public string AdditionalStartParams { get; set; }
-    public string ServerPath { get; set; }
     [DefaultValue(223350)] public uint AppId { get; set; }
     [DefaultValue("dayzServer_x64.exe")] public string Executable { get; set; }
 }
