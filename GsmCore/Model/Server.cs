@@ -8,6 +8,7 @@ public class Server : BaseModel
     [DefaultValue("0.0.0.0")] public string BindIp { get; set; }
     public uint GamePort { get; set; }
     public uint QueryPort { get; set; }
+    public uint RconPort { get; set; }
 
     [DefaultValue("dayzOffline.chernarusplus")]
     public string Map { get; set; }
@@ -22,4 +23,5 @@ public class Server : BaseModel
     public string AdditionalStartParams { get; set; }
     [DefaultValue(223350)] public uint AppId { get; set; }
     [DefaultValue("dayzServer_x64.exe")] public string Executable { get; set; }
+    public string RconPassword { get; set; }
 }

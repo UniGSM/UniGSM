@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="BytexDigital.BattlEye.Rcon" Version="1.0.3-preview.1667929841" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
       <PackageReference Include="SMBLibraryCore.Client" Version="1.7.1" />
