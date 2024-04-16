@@ -1,4 +1,6 @@
-﻿using GsmCore.Model;
+﻿using GsmApi.Util;
+using GsmCore.Model;
+using GsmCore.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace GsmCore.Repository;
@@ -15,6 +17,11 @@ public class ServerRepository : IServerRepository
     public IEnumerable<Server> GetServers()
     {
         return context.Servers.ToList();
+    }
+
+    public async Task<PagedList<Server>> GetServers(QueryStringParameters parameters)
+    {
+        return await PagedList<Server>.ToPagedList(context.Servers.OrderBy(s => s.Id), parameters.PageNumber, parameters.PageSize);
     }
 
     public Server GetServerById(int serverId)
@@ -37,7 +44,7 @@ public class ServerRepository : IServerRepository
     {
         context.Entry(server).State = EntityState.Modified;
     }
-    
+
     public void Save()
     {
         context.SaveChanges();
