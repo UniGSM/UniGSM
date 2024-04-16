@@ -9,6 +9,8 @@ public class GsmDbContext : DbContext
     public DbSet<Server> Servers { get; set; }
     public DbSet<Setting> Settings { get; set; }
     public DbSet<BackupRepository> BackupRepositories { get; set; }
+    public DbSet<CronChain> CronChains { get; set; }
+    public DbSet<CronTask> CronTasks { get; set; }
 
     private string DbPath { get; }
 
