@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmApi", "GsmApi\GsmApi.csproj", "{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmService", "GsmService\GsmService.csproj", "{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmManager", "GsmManager\GsmManager.csproj", "{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}"
 EndProject
