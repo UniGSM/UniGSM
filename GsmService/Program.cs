@@ -1,4 +1,6 @@
 using GsmApi;
+using GsmCore.Service;
+using GsmCore.Util;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWindowsService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IServerService, ServerService>();
+builder.Services.AddSingleton<SteamCmdClient>();
+builder.Services.AddSingleton<ResticUtil>();
+builder.Services.AddSingleton<RconClient>();
 
 var app = builder.Build();
 

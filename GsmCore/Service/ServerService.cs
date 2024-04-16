@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Service;
 
-public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger logger)
+public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger logger) : IServerService
 {
     private static Dictionary<int, Process> _processes = new();
 
