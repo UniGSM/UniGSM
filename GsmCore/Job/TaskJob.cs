@@ -1,5 +1,7 @@
 ﻿using GsmCore.Backup;
 using GsmCore.Model;
+using GsmCore.Service;
+using GsmCore.Util;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -27,6 +29,8 @@ public class TaskJob : IJob
             .FirstOrDefaultAsync(t => t.Id == taskId);
         if (task == null) return;
 
+        var serverService = scope.ServiceProvider.GetRequiredService<ServerService>();
+
         switch (task.Type)
         {
             case CronTaskType.Backup:
@@ -34,14 +38,20 @@ public class TaskJob : IJob
                 await backupRepository.Backup(task.CronChain.Server);
                 break;
             case CronTaskType.Restart:
+                await serverService.RestartServer(task.CronChain.Server);
                 break;
             case CronTaskType.Stop:
+                serverService.StopServer(task.CronChain.Server);
                 break;
             case CronTaskType.Start:
+                await serverService.StartServer(task.CronChain.Server);
                 break;
             case CronTaskType.Update:
+                await serverService.UpdateServer(task.CronChain.Server);
                 break;
             case CronTaskType.Rcon:
+                var rconClient = scope.ServiceProvider.GetRequiredService<RconClient>();
+                await rconClient.SendCommand(task.CronChain.Server, task.Payload);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

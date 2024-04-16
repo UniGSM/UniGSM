@@ -62,7 +62,7 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         await StartServer(server);
     }
 
-    private async Task UpdateServer(Server server)
+    public async Task UpdateServer(Server server)
     {
         logger.LogInformation("Updating server {}", server.Id);
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
