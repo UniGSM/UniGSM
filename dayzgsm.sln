@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmCore", "GsmCore\GsmCore.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmTest", "GsmTest\GsmTest.csproj", "{5BAA13D2-E912-4CFB-9F8C-52A34E3B1C6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmCLI", "GsmCLI\GsmCLI.csproj", "{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{5BAA13D2-E912-4CFB-9F8C-52A34E3B1C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BAA13D2-E912-4CFB-9F8C-52A34E3B1C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BAA13D2-E912-4CFB-9F8C-52A34E3B1C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
