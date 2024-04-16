@@ -14,7 +14,7 @@ public class GsmDbContext : DbContext
 
     public GsmDbContext()
     {
-        const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
         var path = Environment.GetFolderPath(folder);
         DbPath = Path.Join(path, "gsm.db");
     }

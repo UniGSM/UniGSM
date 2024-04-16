@@ -35,7 +35,7 @@ public class SteamCmdClient(ILogger logger)
     private async Task InstallSteamCmd()
     {
         const string downloadUrl = "https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip";
-        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonPrograms;
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
 
         logger.LogInformation("Installing steamcmd");
 
