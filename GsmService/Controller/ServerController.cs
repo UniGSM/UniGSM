@@ -3,7 +3,6 @@ using System.Text.Json;
 using GsmApi.DTO;
 using GsmApi.Param;
 using GsmApi.Util;
-using GsmCore;
 using GsmCore.Model;
 using GsmCore.Repository;
 using GsmCore.Service;
@@ -18,7 +17,6 @@ namespace GsmApi.Controller;
 [Authorize]
 public class ServerController(
     ILogger logger,
-    GsmDbContext context,
     IServerRepository serverRepository,
     IServerService serverService) : ControllerBase
 {
