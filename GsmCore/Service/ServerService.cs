@@ -4,6 +4,7 @@ using GsmCore.Model;
 using GsmCore.Repository;
 using GsmCore.Util;
 using Microsoft.Extensions.Logging;
+using SMBLibrary.Services;
 
 namespace GsmCore.Service;
 
@@ -79,6 +80,50 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
 
         using var serverRepository = new ServerRepository(dbContext);
         await serverRepository.DeleteServer(server.Id);
+        await serverRepository.Save();
+    }
+
+    public async Task UpdateNetworking(Server server, IPAddress bindIp, uint gamePort, uint queryPort, uint rconPort,
+        bool restart = false)
+    {
+        logger.LogInformation("Changing server networking to {}:{}:{}:{} for server {}", bindIp, gamePort, queryPort,
+            rconPort,
+            server.Id);
+        server.BindIp = bindIp.ToString();
+        server.GamePort = gamePort;
+        server.QueryPort = queryPort;
+        server.RconPort = rconPort;
+        using var serverRepository = new ServerRepository(dbContext);
+        serverRepository.UpdateServer(server);
+        await serverRepository.Save();
+        if (restart) await RestartServer(server);
+    }
+
+    public async Task UpdateFlags(Server server, bool autoStart, bool autoRestart, bool autoUpdate, bool doLogs,
+        bool adminLog, bool netLog)
+    {
+        server.AutoStart = autoStart;
+        server.AutoRestart = autoRestart;
+        server.AutoUpdate = autoUpdate;
+        server.DoLogs = doLogs;
+        server.AdminLog = adminLog;
+        server.NetLog = netLog;
+        using var serverRepository = new ServerRepository(dbContext);
+        serverRepository.UpdateServer(server);
+        await serverRepository.Save();
+    }
+
+    public async Task UpdateGameData(Server server, string name, uint slots, string map, string rconPassword,
+        string additionalStartParams)
+    {
+        server.Name = name;
+        server.Slots = slots;
+        server.Map = map;
+        server.RconPassword = rconPassword;
+        server.AdditionalStartParams = additionalStartParams;
+
+        using var serverRepository = new ServerRepository(dbContext);
+        serverRepository.UpdateServer(server);
         await serverRepository.Save();
     }
 }

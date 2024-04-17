@@ -31,6 +31,21 @@ public class ServerController(
         return Created("", server);
     }
 
+    [SwaggerResponse(200, "Server updated db")]
+    [HttpDelete("{serverId:int}", Name = "UpdateServerDb")]
+    public async Task<IActionResult> UpdateDb(int serverId, [FromBody] ServerBodyParams serverBodyParams)
+    {
+        var server = await serverRepository.GetServerById(serverId);
+        if (server == null)
+        {
+            logger.LogWarning("Server with id {} not found", serverId);
+            return NotFound();
+        }
+
+        await serverService.DeleteServer(server);
+        return NoContent();
+    }
+
     [SwaggerResponse(200, "Server deleted")]
     [HttpDelete("{serverId:int}", Name = "DeleteServer")]
     public async Task<IActionResult> Delete(int serverId)
@@ -135,5 +150,56 @@ public class ServerController(
         logger.LogInformation("Returned {} servers from database", servers.TotalCount);
 
         return Ok(servers);
+    }
+
+    [SwaggerResponse(200, "Updated server networking")]
+    [SwaggerResponse(404, "Server not found")]
+    [HttpPut("{serverId:int:required}/networking", Name = "UpdateNetworking")]
+    public async Task<IActionResult> UpdateNetworking([FromBody] ServerNetworkingParams networkingParams, int serverId)
+    {
+        var server = await serverRepository.GetServerById(serverId);
+        if (server == null)
+        {
+            logger.LogWarning("Server with id {} not found", serverId);
+            return NotFound();
+        }
+
+        await serverService.UpdateNetworking(server, IPAddress.Parse(networkingParams.BindIp),
+            networkingParams.GamePort, networkingParams.QueryPort, networkingParams.RconPort, networkingParams.Restart);
+        return NoContent();
+    }
+
+    [SwaggerResponse(200, "Updated server flags")]
+    [SwaggerResponse(404, "Server not found")]
+    [HttpPut("{serverId:int:required}/flags", Name = "UpdateFlags")]
+    public async Task<IActionResult> UpdateFlags([FromBody] ServerFlagParams flagParams, int serverId)
+    {
+        var server = await serverRepository.GetServerById(serverId);
+        if (server == null)
+        {
+            logger.LogWarning("Server with id {} not found", serverId);
+            return NotFound();
+        }
+
+        await serverService.UpdateFlags(server, flagParams.AutoStart, flagParams.AutoRestart, flagParams.AutoUpdate,
+            flagParams.DoLogs, flagParams.AdminLog, flagParams.NetLog);
+        return NoContent();
+    }
+
+    [SwaggerResponse(200, "Updated server game data")]
+    [SwaggerResponse(404, "Server not found")]
+    [HttpPut("{serverId:int:required}/gamedata", Name = "UpdateGameData")]
+    public async Task<IActionResult> UpdateGameData([FromBody] ServerGameDataParams gameDataParams, int serverId)
+    {
+        var server = await serverRepository.GetServerById(serverId);
+        if (server == null)
+        {
+            logger.LogWarning("Server with id {} not found", serverId);
+            return NotFound();
+        }
+
+        await serverService.UpdateGameData(server, gameDataParams.Name, gameDataParams.Slots, gameDataParams.Map,
+            gameDataParams.RconPassword, gameDataParams.AdditionalStartParams);
+        return NoContent();
     }
 }

@@ -31,7 +31,7 @@ public class SettingController(GsmDbContext context, ISettingRepository settingR
     public async Task<IActionResult> Update([FromBody] Setting settingsParams)
     {
         context.Settings.Attach(settingsParams);
-        context.Entry(settingsParams).State = EntityState.Modified;
+        context.Entry(settingsParams).Property(x => x.Value).IsModified = true;
         await context.SaveChangesAsync();
 
         return Ok();
