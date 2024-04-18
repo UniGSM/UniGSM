@@ -1,4 +1,4 @@
-﻿namespace GsmApi.DTO;
+﻿namespace GsmCore.ApiClient;
 
 public class TokenModel
 {

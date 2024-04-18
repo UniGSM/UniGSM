@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using GsmApi.Authentication;
 using GsmApi.DTO;
+using GsmCore.ApiClient;
+using GsmCore.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

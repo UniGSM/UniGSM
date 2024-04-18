@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GsmApi.Util;
+namespace GsmCore.Util;
 
 public class PagedList<T> : List<T>
 {

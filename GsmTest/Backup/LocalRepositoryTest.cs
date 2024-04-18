@@ -3,7 +3,7 @@ using GsmCore.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace GsmTest;
+namespace GsmTest.Backup;
 
 public class Tests
 {
