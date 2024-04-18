@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmService", "GsmService\GsmService.csproj", "{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmManager", "GsmManager\GsmManager.csproj", "{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmCore", "GsmCore\GsmCore.csproj", "{52F7E170-C91A-4701-98EB-FDC5DE714624}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmTest", "GsmTest\GsmTest.csproj", "{5BAA13D2-E912-4CFB-9F8C-52A34E3B1C6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmCLI", "GsmCLI\GsmCLI.csproj", "{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GsmManager", "GsmManager\GsmManager.csproj", "{80132727-F74C-4765-91E9-F0B21EB27C06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +26,6 @@ Global
 		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFFC2D4E-3B62-4D01-A991-AC8C69315FD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2823B024-9FA6-48EC-8CF4-8E330CA2E0C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52F7E170-C91A-4701-98EB-FDC5DE714624}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,5 +38,9 @@ Global
 		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B6A8D74-DCFA-4BF5-958E-1DB0F47D98A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80132727-F74C-4765-91E9-F0B21EB27C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80132727-F74C-4765-91E9-F0B21EB27C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80132727-F74C-4765-91E9-F0B21EB27C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80132727-F74C-4765-91E9-F0B21EB27C06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
