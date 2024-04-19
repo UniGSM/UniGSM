@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
+using GsmCore.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Util;

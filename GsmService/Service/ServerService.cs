@@ -140,6 +140,11 @@ public class ServerService(
         await serverRepository.Save();
     }
 
+    public int GetProcessForServer(int serverId)
+    {
+        return _processes.TryGetValue(serverId, out var process) ? process.Id : -1;
+    }
+
     private async Task NotifyStatusUpdate(Server server, ServerEventType eventType)
     {
         await hubContext.Clients.Group("status-updates").SendAsync("StatusUpdate", server.Id, eventType);

@@ -25,4 +25,6 @@ public interface IServerService
 
     public Task UpdateGameData(Server server, string name, uint slots, string map, string rconPassword,
         string additionalStartParams);
+
+    public int GetProcessForServer(int serverId);
 }

@@ -1,6 +1,6 @@
-﻿namespace GsmCore.Util;
+﻿namespace GsmCore.Extensions;
 
-public static class HttpClientUtils
+public static class HttpClientExtensions
 {
     public static async Task DownloadFileTaskAsync(this HttpClient client, Uri uri, string fileName)
     {

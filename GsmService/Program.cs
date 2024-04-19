@@ -1,6 +1,8 @@
+using System.Reflection;
 using System.Text;
 using GsmApi;
 using GsmApi.Authentication;
+using GsmApi.Extensions;
 using GsmApi.Hubs;
 using GsmApi.Job;
 using GsmApi.Repository;
@@ -25,6 +27,9 @@ builder.Services.AddScoped<ISettingRepository, SettingRepository>();
 builder.Services.AddSingleton<SteamCmdClient>();
 builder.Services.AddSingleton<ResticUtil>();
 builder.Services.AddSingleton<RconClient>();
+builder.Services.AddTransient<CronJob>();
+builder.Services.AddTransient<TaskJob>();
+builder.Services.AddTransient<CpuJob>();
 builder.Services.AddQuartz(q =>
 {
     q.UseSimpleTypeLoader();
@@ -32,8 +37,7 @@ builder.Services.AddQuartz(q =>
     q.UseDefaultThreadPool(tp => { tp.MaxConcurrency = 10; });
 });
 
-builder.Services.AddTransient<CronJob>();
-builder.Services.AddTransient<TaskJob>();
+
 builder.Services.AddDbContext<GsmDbContext>();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
@@ -41,6 +45,9 @@ builder.Services.AddSignalR();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<GsmDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddCronJobScheduling();
+builder.Services.AddCronJobs(Assembly.GetExecutingAssembly());
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
@@ -78,6 +85,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+
 app.MapHub<GsmHub>("/hub");
 
 // Run db migrations
@@ -85,4 +93,5 @@ using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<GsmDbContext>();
 await dbContext.Database.MigrateAsync();
 
+app.RunCronJobScheduling();
 app.Run();
