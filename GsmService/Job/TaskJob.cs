@@ -1,12 +1,11 @@
-﻿using GsmCore.Backup;
+﻿using GsmApi.Service;
+using GsmCore.Backup;
 using GsmCore.Model;
-using GsmCore.Service;
 using GsmCore.Util;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
-namespace GsmCore.Job;
+namespace GsmApi.Job;
 
 public class TaskJob : IJob
 {

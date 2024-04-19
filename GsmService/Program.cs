@@ -1,12 +1,15 @@
 using System.Text;
+using GsmApi;
 using GsmApi.Authentication;
+using GsmApi.Job;
+using GsmApi.Repository;
+using GsmApi.Service;
 using GsmCore;
-using GsmCore.Job;
-using GsmCore.Repository;
-using GsmCore.Service;
 using GsmCore.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
 
@@ -17,7 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWindowsService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddLogging();
 builder.Services.AddScoped<IServerService, ServerService>();
 builder.Services.AddScoped<IServerRepository, ServerRepository>();
 builder.Services.AddScoped<ISettingRepository, SettingRepository>();
@@ -76,5 +78,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+
+// Run db migrations
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<GsmDbContext>();
+await dbContext.Database.MigrateAsync();
 
 app.Run();

@@ -1,8 +1,8 @@
-﻿using GsmCore.Job;
+﻿using GsmApi.Job;
 using Quartz;
 using Quartz.Impl;
 
-namespace GsmCore.Cron;
+namespace GsmApi.Cron;
 
 public class CronService
 {

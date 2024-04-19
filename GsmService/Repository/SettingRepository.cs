@@ -2,7 +2,7 @@
 using GsmCore.Util;
 using Microsoft.EntityFrameworkCore;
 
-namespace GsmCore.Repository;
+namespace GsmApi.Repository;
 
 public class SettingRepository(GsmDbContext context) : ISettingRepository
 {

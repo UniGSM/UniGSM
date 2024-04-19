@@ -1,7 +1,7 @@
 ﻿using GsmCore.Model;
 using GsmCore.Util;
 
-namespace GsmCore.Repository;
+namespace GsmApi.Repository;
 
 public interface IServerRepository : IDisposable
 {

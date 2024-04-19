@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using GsmApi.Repository;
 using GsmCore.Model;
-using GsmCore.Repository;
 using GsmCore.Util;
-using Microsoft.Extensions.Logging;
 
-namespace GsmCore.Service;
+namespace GsmApi.Service;
 
 public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger<ServerService> logger) : IServerService
 {

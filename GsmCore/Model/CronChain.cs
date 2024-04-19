@@ -2,7 +2,7 @@
 
 namespace GsmCore.Model;
 
-public class CronChain
+public class CronChain : BaseModel
 {
     public int ServerId { get; set; }
     public Server Server { get; set; } = null!;

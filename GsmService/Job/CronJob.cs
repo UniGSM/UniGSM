@@ -1,9 +1,7 @@
-﻿using GsmCore.Util;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 
-namespace GsmCore.Job;
+namespace GsmApi.Job;
 
 public class CronJob : IJob
 {

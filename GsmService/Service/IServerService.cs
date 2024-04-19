@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using GsmCore.Model;
 
-namespace GsmCore.Service;
+namespace GsmApi.Service;
 
 public interface IServerService
 {
