@@ -3,15 +3,8 @@ using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Util;
 
-public class ResticUtil
+public class ResticUtil(ILogger<ResticUtil> logger)
 {
-    private readonly ILogger _logger;
-
-    public ResticUtil(ILogger logger)
-    {
-        _logger = logger;
-    }
-
     public bool Backup(string repository, string password, string source)
     {
         return RunResticCommand(repository, password, $"backup {source}");
@@ -39,7 +32,7 @@ public class ResticUtil
         process.Start();
         process.WaitForExit();
         if (process.ExitCode == 0) return true;
-        _logger.LogError("Command failed");
+        logger.LogError("Command failed");
         return false;
     }
 }

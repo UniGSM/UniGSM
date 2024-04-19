@@ -4,15 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GsmCore.Repository;
 
-public class SettingRepository : ISettingRepository
+public class SettingRepository(GsmDbContext context) : ISettingRepository
 {
-    private GsmDbContext context;
-
-    public SettingRepository(GsmDbContext context)
-    {
-        this.context = context;
-    }
-
     public Task<List<Setting>> GetSettings()
     {
         return context.Settings.ToListAsync();

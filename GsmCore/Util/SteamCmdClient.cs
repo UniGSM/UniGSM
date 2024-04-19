@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Util;
 
-public class SteamCmdClient(ILogger logger)
+public class SteamCmdClient(ILogger<SteamCmdClient> logger)
 {
     public async Task UpdateGame(string installDir, uint appId, string login = "anonymous")
     {

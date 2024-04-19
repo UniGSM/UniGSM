@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GsmCore.Util;
 
-public class RconClient(ILogger logger)
+public class RconClient(ILogger<RconClient> logger)
 {
     public async Task SendCommand(Server server, string command)
     {

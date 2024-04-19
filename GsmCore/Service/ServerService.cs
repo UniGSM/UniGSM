@@ -4,11 +4,10 @@ using GsmCore.Model;
 using GsmCore.Repository;
 using GsmCore.Util;
 using Microsoft.Extensions.Logging;
-using SMBLibrary.Services;
 
 namespace GsmCore.Service;
 
-public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger logger) : IServerService
+public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger<ServerService> logger) : IServerService
 {
     private static Dictionary<int, Process> _processes = new();
 
