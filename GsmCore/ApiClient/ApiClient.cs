@@ -1,8 +1,4 @@
 ﻿namespace GsmCore.ApiClient;
 
-public partial class ApiClient : ApiClientBase
-{
-    public ApiClient(string baseUrl, string userName, string password) : base(baseUrl, userName, password)
-    {
-    }
-}
+public partial class ApiClient(string baseUrl, string userName, string password)
+    : ApiClientBase(baseUrl, userName, password);
