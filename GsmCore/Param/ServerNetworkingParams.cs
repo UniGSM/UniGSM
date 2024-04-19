@@ -1,4 +1,4 @@
-﻿namespace GsmApi.Param;
+﻿namespace GsmCore.Param;
 
 public class ServerNetworkingParams
 {

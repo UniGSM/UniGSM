@@ -15,8 +15,4 @@
       <ProjectReference Include="..\GsmCore\GsmCore.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Client\" />
-    </ItemGroup>
-
 </Project>

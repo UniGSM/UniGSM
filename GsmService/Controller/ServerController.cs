@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
 using GsmApi.DTO;
-using GsmApi.Param;
 using GsmCore.Model;
+using GsmCore.Param;
 using GsmCore.Repository;
 using GsmCore.Service;
 using GsmCore.Util;
@@ -29,21 +29,6 @@ public class ServerController(
             serverParams.QueryPort, serverParams.Slots);
 
         return Created("", server);
-    }
-
-    [SwaggerResponse(200, "Server updated db")]
-    [HttpDelete("{serverId:int}", Name = "UpdateServerDb")]
-    public async Task<IActionResult> UpdateDb(int serverId, [FromBody] ServerBodyParams serverBodyParams)
-    {
-        var server = await serverRepository.GetServerById(serverId);
-        if (server == null)
-        {
-            logger.LogWarning("Server with id {} not found", serverId);
-            return NotFound();
-        }
-
-        await serverService.DeleteServer(server);
-        return NoContent();
     }
 
     [SwaggerResponse(200, "Server deleted")]

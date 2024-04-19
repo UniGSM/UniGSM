@@ -1,6 +1,6 @@
 ﻿using GsmCore.Util;
 
-namespace GsmApi.Param;
+namespace GsmCore.Param;
 
 public class SettingParameters : QueryStringParameters
 {
