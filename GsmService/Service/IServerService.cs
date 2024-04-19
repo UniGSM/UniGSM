@@ -9,7 +9,7 @@ public interface IServerService
 
     public Task StartServer(Server server);
 
-    public void StopServer(Server server);
+    public Task StopServer(Server server);
 
     public Task RestartServer(Server server);
 
@@ -23,5 +23,6 @@ public interface IServerService
     public Task UpdateFlags(Server server, bool autoStart, bool autoRestart, bool autoUpdate, bool doLogs,
         bool adminLog, bool netLog);
 
-    public Task UpdateGameData(Server server, string name, uint slots, string map, string rconPassword, string additionalStartParams);
+    public Task UpdateGameData(Server server, string name, uint slots, string map, string rconPassword,
+        string additionalStartParams);
 }

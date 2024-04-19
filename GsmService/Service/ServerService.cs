@@ -1,12 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using GsmApi.Hubs;
 using GsmApi.Repository;
 using GsmCore.Model;
 using GsmCore.Util;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GsmApi.Service;
 
-public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient, ILogger<ServerService> logger) : IServerService
+public class ServerService(
+    GsmDbContext dbContext,
+    SteamCmdClient steamCmdClient,
+    ILogger<ServerService> logger,
+    IHubContext<GsmHub> hubContext) : IServerService
 {
     private static Dictionary<int, Process> _processes = new();
 
@@ -31,6 +37,7 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
     public async Task StartServer(Server server)
     {
         logger.LogInformation("Starting server {}", server.Id);
+        await NotifyStatusUpdate(server, ServerEventType.Starting);
         if (server.AutoUpdate) await UpdateServer(server);
 
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
@@ -45,36 +52,44 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         process.Start();
 
         _processes[server.Id] = process;
+
+        await NotifyStatusUpdate(server, ServerEventType.Started);
     }
 
-    public void StopServer(Server server)
+    public async Task StopServer(Server server)
     {
+        await NotifyStatusUpdate(server, ServerEventType.Stopping);
         logger.LogInformation("Stopping server {}", server.Id);
         if (!_processes.TryGetValue(server.Id, out var value)) return;
         value.Kill();
         _processes.Remove(server.Id);
+        await NotifyStatusUpdate(server, ServerEventType.Stopped);
     }
 
     public async Task RestartServer(Server server)
     {
+        await NotifyStatusUpdate(server, ServerEventType.Restarting);
         logger.LogInformation("Restarting server {}", server.Id);
-        StopServer(server);
+        await StopServer(server);
         await StartServer(server);
+        await NotifyStatusUpdate(server, ServerEventType.Restarted);
     }
 
     public async Task UpdateServer(Server server)
     {
+        await NotifyStatusUpdate(server, ServerEventType.Updating);
         logger.LogInformation("Updating server {}", server.Id);
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
         var serverPath = Path.Combine(Environment.GetFolderPath(folder), "dayzgsm", "servers", server.Id.ToString());
 
         await steamCmdClient.UpdateGame(serverPath, server.AppId);
+        await NotifyStatusUpdate(server, ServerEventType.Updated);
     }
 
     public async Task DeleteServer(Server server)
     {
         logger.LogInformation("Deleting server {}", server.Id);
-        StopServer(server);
+        await StopServer(server);
 
         using var serverRepository = new ServerRepository(dbContext);
         await serverRepository.DeleteServer(server.Id);
@@ -123,5 +138,10 @@ public class ServerService(GsmDbContext dbContext, SteamCmdClient steamCmdClient
         using var serverRepository = new ServerRepository(dbContext);
         serverRepository.UpdateServer(server);
         await serverRepository.Save();
+    }
+
+    private async Task NotifyStatusUpdate(Server server, ServerEventType eventType)
+    {
+        await hubContext.Clients.Group("status-updates").SendAsync("StatusUpdate", server.Id, eventType);
     }
 }
