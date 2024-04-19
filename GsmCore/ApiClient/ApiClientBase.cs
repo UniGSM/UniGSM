@@ -7,31 +7,31 @@ public class ApiClientBase(string baseUrl, string userName, string password)
 {
     private TokenResponse? _token;
 
-    public async Task<PagedList<T>?> GetPaginated<T>(string url, int pageNumber = 1)
+    protected async Task<PagedList<T>?> GetPaginated<T>(string url, int pageNumber = 1)
     {
         using var client = await SetTokenAndGetClient();
         return await client.GetFromJsonAsync<PagedList<T>>($"{baseUrl}/{url}?PageNumber={pageNumber}");
     }
 
-    public async Task<HttpResponseMessage> Delete(string url)
+    protected async Task<HttpResponseMessage> Delete(string url)
     {
         using var client = await SetTokenAndGetClient();
         return await client.DeleteAsync($"{baseUrl}/{url}");
     }
 
-    public async Task<HttpResponseMessage> Put<T>(string url, T data)
+    protected async Task<HttpResponseMessage> Put<T>(string url, T data)
     {
         using var client = await SetTokenAndGetClient();
         return await client.PutAsJsonAsync($"{baseUrl}/{url}", data);
     }
 
-    public async Task<HttpResponseMessage> Post<T>(string url, T data)
+    protected async Task<HttpResponseMessage> Post<T>(string url, T data)
     {
         using var client = await SetTokenAndGetClient();
         return await client.PostAsJsonAsync($"{baseUrl}/{url}", data);
     }
 
-    public async Task<T?> Get<T>(string url)
+    protected async Task<T?> Get<T>(string url)
     {
         using var client = await SetTokenAndGetClient();
         return await client.GetFromJsonAsync<T>($"{baseUrl}/{url}");
