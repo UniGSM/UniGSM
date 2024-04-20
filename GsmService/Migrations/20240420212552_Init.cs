@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GsmApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,31 +71,22 @@ namespace GsmApi.Migrations
                 name: "Servers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    GuId = table.Column<string>(type: "TEXT", nullable: false),
+                    ContainerId = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    TemplateName = table.Column<string>(type: "TEXT", nullable: false),
                     BindIp = table.Column<string>(type: "TEXT", nullable: false),
                     GamePort = table.Column<uint>(type: "INTEGER", nullable: false),
                     QueryPort = table.Column<uint>(type: "INTEGER", nullable: false),
                     RconPort = table.Column<uint>(type: "INTEGER", nullable: false),
                     Map = table.Column<string>(type: "TEXT", nullable: false),
                     Slots = table.Column<uint>(type: "INTEGER", nullable: false),
-                    AutoStart = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AutoRestart = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AutoUpdate = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DoLogs = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AdminLog = table.Column<bool>(type: "INTEGER", nullable: false),
-                    NetLog = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AdditionalStartParams = table.Column<string>(type: "TEXT", nullable: false),
                     AppId = table.Column<uint>(type: "INTEGER", nullable: false),
-                    Executable = table.Column<string>(type: "TEXT", nullable: false),
-                    RconPassword = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    RconPassword = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Servers", x => x.Id);
+                    table.PrimaryKey("PK_Servers", x => x.GuId);
                 });
 
             migrationBuilder.CreateTable(
@@ -223,6 +214,7 @@ namespace GsmApi.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ServerGuId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CronExpression = table.Column<string>(type: "TEXT", nullable: false),
                     IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -233,11 +225,10 @@ namespace GsmApi.Migrations
                 {
                     table.PrimaryKey("PK_CronChains", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CronChains_Servers_ServerId",
-                        column: x => x.ServerId,
+                        name: "FK_CronChains_Servers_ServerGuId",
+                        column: x => x.ServerGuId,
                         principalTable: "Servers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "GuId");
                 });
 
             migrationBuilder.CreateTable(
@@ -303,9 +294,9 @@ namespace GsmApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CronChains_ServerId",
+                name: "IX_CronChains_ServerGuId",
                 table: "CronChains",
-                column: "ServerId");
+                column: "ServerGuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CronTasks_CronChainId",

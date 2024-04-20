@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GsmApi.Migrations
 {
     [DbContext(typeof(GsmDbContext))]
-    [Migration("20240419173319_Initial")]
-    partial class Initial
+    [Migration("20240420212552_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,7 +84,7 @@ namespace GsmApi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("GsmCore.Model.BackupRepository", b =>
+            modelBuilder.Entity("GsmCore.Models.BackupRepository", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,7 +112,7 @@ namespace GsmApi.Migrations
                     b.ToTable("BackupRepositories");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.CronChain", b =>
+            modelBuilder.Entity("GsmCore.Models.CronChain", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,6 +132,9 @@ namespace GsmApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ServerGuId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("ServerId")
                         .HasColumnType("INTEGER");
 
@@ -140,12 +143,12 @@ namespace GsmApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ServerId");
+                    b.HasIndex("ServerGuId");
 
                     b.ToTable("CronChains");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.CronTask", b =>
+            modelBuilder.Entity("GsmCore.Models.CronTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,42 +183,19 @@ namespace GsmApi.Migrations
                     b.ToTable("CronTasks");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.Server", b =>
+            modelBuilder.Entity("GsmCore.Models.Server", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AdditionalStartParams")
-                        .IsRequired()
+                    b.Property<string>("GuId")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("AdminLog")
-                        .HasColumnType("INTEGER");
-
                     b.Property<uint>("AppId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("AutoRestart")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("AutoStart")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("AutoUpdate")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BindIp")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("DoLogs")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Executable")
+                    b.Property<string>("ContainerId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -230,9 +210,6 @@ namespace GsmApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("NetLog")
-                        .HasColumnType("INTEGER");
-
                     b.Property<uint>("QueryPort")
                         .HasColumnType("INTEGER");
 
@@ -246,15 +223,16 @@ namespace GsmApi.Migrations
                     b.Property<uint>("Slots")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<string>("TemplateName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("GuId");
 
                     b.ToTable("Servers");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.Setting", b =>
+            modelBuilder.Entity("GsmCore.Models.Setting", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("TEXT");
@@ -396,20 +374,18 @@ namespace GsmApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GsmCore.Model.CronChain", b =>
+            modelBuilder.Entity("GsmCore.Models.CronChain", b =>
                 {
-                    b.HasOne("GsmCore.Model.Server", "Server")
+                    b.HasOne("GsmCore.Models.Server", "Server")
                         .WithMany("ChronChains")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServerGuId");
 
                     b.Navigation("Server");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.CronTask", b =>
+            modelBuilder.Entity("GsmCore.Models.CronTask", b =>
                 {
-                    b.HasOne("GsmCore.Model.CronChain", "CronChain")
+                    b.HasOne("GsmCore.Models.CronChain", "CronChain")
                         .WithMany("CronTasks")
                         .HasForeignKey("CronChainId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -469,12 +445,12 @@ namespace GsmApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GsmCore.Model.CronChain", b =>
+            modelBuilder.Entity("GsmCore.Models.CronChain", b =>
                 {
                     b.Navigation("CronTasks");
                 });
 
-            modelBuilder.Entity("GsmCore.Model.Server", b =>
+            modelBuilder.Entity("GsmCore.Models.Server", b =>
                 {
                     b.Navigation("ChronChains");
                 });
