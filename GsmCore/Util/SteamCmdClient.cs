@@ -22,6 +22,16 @@ public class SteamCmdClient(ILogger<SteamCmdClient> logger)
         logger.LogInformation("Update complete");
     }
 
+    public string GetSteamCmdPath()
+    {
+        return Path.Combine(PathUtil.GetAppDataPath(), "steamcmd");
+    }
+
+    public async Task EnsureSteamCmdIsInstalled()
+    {
+        if (!await IsSteamCmdInstalled()) await InstallSteamCmd();
+    }
+
     private async Task<bool> IsSteamCmdInstalled()
     {
         var process = new Process();
@@ -36,7 +46,6 @@ public class SteamCmdClient(ILogger<SteamCmdClient> logger)
     private async Task InstallSteamCmd()
     {
         const string downloadUrl = "https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip";
-        const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
 
         logger.LogInformation("Installing steamcmd");
 
@@ -45,8 +54,7 @@ public class SteamCmdClient(ILogger<SteamCmdClient> logger)
         using var client = new HttpClient();
         await client.DownloadFileTaskAsync(new Uri(downloadUrl), tempFile);
 
-        var path = Environment.GetFolderPath(folder);
-        var steamCmdPath = Path.Combine(path, "dayzgsm", "steamcmd");
+        var steamCmdPath = Path.Combine(PathUtil.GetAppDataPath(), "steamcmd");
         ZipFile.ExtractToDirectory(tempFile, steamCmdPath);
         File.Delete(tempFile);
 

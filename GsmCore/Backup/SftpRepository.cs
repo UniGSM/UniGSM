@@ -25,11 +25,11 @@ public class SftpRepository : IBackupRepository
 
     public async Task Backup(Server server)
     {
-        _logger.LogInformation("Backing up server {} to sftp storage", server.Id);
+        _logger.LogInformation("Backing up server {} to sftp storage", server.GuId);
 
         var sftpClient = await CreateSftpSession((string)_data["host"], GetAuthenticationMethod());
         var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-        var backupFile = $"server{server.Id}-{timeStamp}.zip";
+        var backupFile = $"server{server.GuId}-{timeStamp}.zip";
         using var archive = ZipFile.Open(backupFile, ZipArchiveMode.Create);
         var serverFiles = Directory.GetFiles(_serverPath);
         foreach (var file in serverFiles)
@@ -48,7 +48,7 @@ public class SftpRepository : IBackupRepository
 
     public async Task Restore(Server server)
     {
-        _logger.LogInformation("Restoring server {} from sftp storage", server.Id);
+        _logger.LogInformation("Restoring server {} from sftp storage", server.GuId);
 
         var sftpClient = await CreateSftpSession((string)_data["host"], GetAuthenticationMethod());
         var backupFile = sftpClient.ListDirectory("/").OrderByDescending(f => f.LastWriteTime).First().Name;

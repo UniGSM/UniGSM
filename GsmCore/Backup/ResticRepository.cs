@@ -21,7 +21,7 @@ public class ResticRepository : IBackupRepository
 
     public async Task Backup(Server server)
     {
-        _logger.LogInformation("Backing up server {} to restic storage", server.Id);
+        _logger.LogInformation("Backing up server {} to restic storage", server.GuId);
 
         if (!_resticUtil.IsResticInstalled())
         {
@@ -42,10 +42,10 @@ public class ResticRepository : IBackupRepository
 
     public async Task Restore(Server server)
     {
-        _logger.LogInformation("Restoring server {} from restic storage", server.Id);
+        _logger.LogInformation("Restoring server {} from restic storage", server.GuId);
         var repository = "restic-repo";
         var password = "password";
-        
+
         if (!_resticUtil.Restore(repository, password, _serverPath))
         {
             _logger.LogError("Restore failed");

@@ -24,12 +24,12 @@ public class Tests
         var server = new Server
         {
             Name = "TestServer",
-            Id = int.MaxValue,
+            GuId = Guid.NewGuid().ToString(),
         };
 
         const Environment.SpecialFolder folder = Environment.SpecialFolder.CommonApplicationData;
         var path = Environment.GetFolderPath(folder);
-        var serverPath = Path.Combine(path, "dayzgsm", "servers", server.Id.ToString());
+        var serverPath = Path.Combine(path, "dayzgsm", "servers", server.GuId);
         Console.WriteLine(serverPath);
         Directory.CreateDirectory(serverPath);
         await File.WriteAllTextAsync(Path.Combine(serverPath, "test.txt"), "test");
@@ -37,7 +37,7 @@ public class Tests
         File.Delete(Path.Combine(serverPath, "test.txt"));
 
         // find all files beginning with "server{server.Id}" in the backup path
-        var backupFiles = Directory.GetFiles(Path.Combine(path, "backups"), $"server{server.Id}-*.zip");
+        var backupFiles = Directory.GetFiles(Path.Combine(path, "backups"), $"server{server.GuId}-*.zip");
         Assert.AreNotEqual(0, backupFiles.Length);
 
         // cleanup

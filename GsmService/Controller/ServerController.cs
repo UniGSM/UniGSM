@@ -24,7 +24,8 @@ public class ServerController(
     [HttpPut(Name = "CreateServer")]
     public async Task<IActionResult> Create([FromBody] ServerBodyParams serverParams)
     {
-        var server = await serverService.CreateServer(serverParams.Name, IPAddress.Parse(serverParams.BindIp),
+        var server = await serverService.CreateServer(serverParams.TemplateName, serverParams.Name,
+            IPAddress.Parse(serverParams.BindIp),
             serverParams.GamePort,
             serverParams.QueryPort, serverParams.Slots);
 
@@ -32,8 +33,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Server deleted")]
-    [HttpDelete("{serverId:int}", Name = "DeleteServer")]
-    public async Task<IActionResult> Delete(int serverId)
+    [HttpDelete("{serverId:required}", Name = "DeleteServer")]
+    public async Task<IActionResult> Delete(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -47,8 +48,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Server started")]
-    [HttpPost("{serverId:int}/start", Name = "StartServer")]
-    public async Task<IActionResult> Start(int serverId)
+    [HttpPost("{serverId:required}/start", Name = "StartServer")]
+    public async Task<IActionResult> Start(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -62,8 +63,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Server stopped")]
-    [HttpPost("{serverId:int}/stop", Name = "StopServer")]
-    public async Task<IActionResult> Stop(int serverId)
+    [HttpPost("{serverId:required}/stop", Name = "StopServer")]
+    public async Task<IActionResult> Stop(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -77,8 +78,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Server restarted")]
-    [HttpPost("{serverId:int}/restart", Name = "RestartServer")]
-    public async Task<IActionResult> Restart(int serverId)
+    [HttpPost("{serverId:required}/restart", Name = "RestartServer")]
+    public async Task<IActionResult> Restart(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -92,8 +93,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Server updated")]
-    [HttpPost("{serverId:int}/update", Name = "UpdateServer")]
-    public async Task<IActionResult> Update(int serverId)
+    [HttpPost("{serverId:required}/update", Name = "UpdateServer")]
+    public async Task<IActionResult> Update(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -107,8 +108,8 @@ public class ServerController(
     }
 
     [SwaggerResponse(200, "Single server", typeof(Server))]
-    [HttpGet("{serverId:int}", Name = "GetServer")]
-    public async Task<IActionResult> GetOne(int serverId)
+    [HttpGet("{serverId:required}", Name = "GetServer")]
+    public async Task<IActionResult> GetOne(string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
 
@@ -139,8 +140,9 @@ public class ServerController(
 
     [SwaggerResponse(200, "Updated server networking")]
     [SwaggerResponse(404, "Server not found")]
-    [HttpPut("{serverId:int:required}/networking", Name = "UpdateNetworking")]
-    public async Task<IActionResult> UpdateNetworking([FromBody] ServerNetworkingParams networkingParams, int serverId)
+    [HttpPut("{serverId:required}/networking", Name = "UpdateNetworking")]
+    public async Task<IActionResult> UpdateNetworking([FromBody] ServerNetworkingParams networkingParams,
+        string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -156,8 +158,8 @@ public class ServerController(
 
     [SwaggerResponse(200, "Updated server flags")]
     [SwaggerResponse(404, "Server not found")]
-    [HttpPut("{serverId:int:required}/flags", Name = "UpdateFlags")]
-    public async Task<IActionResult> UpdateFlags([FromBody] ServerFlagParams flagParams, int serverId)
+    [HttpPut("{serverId:required}/flags", Name = "UpdateFlags")]
+    public async Task<IActionResult> UpdateFlags([FromBody] ServerFlagParams flagParams, string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)
@@ -173,8 +175,8 @@ public class ServerController(
 
     [SwaggerResponse(200, "Updated server game data")]
     [SwaggerResponse(404, "Server not found")]
-    [HttpPut("{serverId:int:required}/gamedata", Name = "UpdateGameData")]
-    public async Task<IActionResult> UpdateGameData([FromBody] ServerGameDataParams gameDataParams, int serverId)
+    [HttpPut("{serverId:required}/gamedata", Name = "UpdateGameData")]
+    public async Task<IActionResult> UpdateGameData([FromBody] ServerGameDataParams gameDataParams, string serverId)
     {
         var server = await serverRepository.GetServerById(serverId);
         if (server == null)

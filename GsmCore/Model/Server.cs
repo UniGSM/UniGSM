@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace GsmCore.Model;
 
-public class Server : BaseModel
+[PrimaryKey(nameof(GuId))]
+public class Server
 {
+    public string GuId { get; set; } = null!;
+    public string ContainerId { get; set; } = null!;
     public string Name { get; set; }
     [DefaultValue("0.0.0.0")] public string BindIp { get; set; }
     public uint GamePort { get; set; }

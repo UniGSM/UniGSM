@@ -21,14 +21,14 @@ public class SMBRepository : IBackupRepository
 
     public async Task Backup(Server server)
     {
-        _logger.LogInformation("Backing up server {} to smb storage", server.Id);
+        _logger.LogInformation("Backing up server {} to smb storage", server.GuId);
 
         _logger.LogInformation("Backup complete");
     }
 
     public async Task Restore(Server server)
     {
-        _logger.LogInformation("Restoring server {} from smb storage", server.Id);
+        _logger.LogInformation("Restoring server {} from smb storage", server.GuId);
         _logger.LogInformation("Restore complete");
     }
 

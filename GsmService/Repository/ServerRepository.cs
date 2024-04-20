@@ -20,11 +20,11 @@ public class ServerRepository : IServerRepository
 
     public async Task<PagedList<Server>> GetServers(QueryStringParameters parameters)
     {
-        return await PagedList<Server>.ToPagedList(context.Servers.OrderBy(s => s.Id), parameters.PageNumber,
+        return await PagedList<Server>.ToPagedList(context.Servers.OrderBy(s => s.GuId), parameters.PageNumber,
             parameters.PageSize);
     }
 
-    public ValueTask<Server?> GetServerById(int serverId)
+    public ValueTask<Server?> GetServerById(string serverId)
     {
         return context.Servers.FindAsync(serverId);
     }
@@ -34,7 +34,7 @@ public class ServerRepository : IServerRepository
         await context.Servers.AddAsync(server);
     }
 
-    public async Task DeleteServer(int serverId)
+    public async Task DeleteServer(string serverId)
     {
         var server = await context.Servers.FindAsync(serverId);
         context.Servers.Remove(server);

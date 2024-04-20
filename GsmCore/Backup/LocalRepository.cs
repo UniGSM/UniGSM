@@ -22,9 +22,9 @@ public class LocalRepository : IBackupRepository
 
     public async Task Backup(Server server)
     {
-        _logger.LogInformation("Backing up server {} to local storage", server.Id);
+        _logger.LogInformation("Backing up server {} to local storage", server.GuId);
         var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-        var backupFile = Path.Join(_backupPath, $"server{server.Id}-{timeStamp}.zip");
+        var backupFile = Path.Join(_backupPath, $"server{server.GuId}-{timeStamp}.zip");
         using var archive = ZipFile.Open(backupFile, ZipArchiveMode.Create);
         var serverFiles = Directory.GetFiles(_serverPath);
         foreach (var file in serverFiles)
@@ -38,7 +38,7 @@ public class LocalRepository : IBackupRepository
 
     public async Task Restore(Server server)
     {
-        _logger.LogInformation("Restoring server {} from local storage", server.Id);
+        _logger.LogInformation("Restoring server {} from local storage", server.GuId);
         var backupFile = Directory.GetFiles(_backupPath).OrderByDescending(f => f).First();
         using var archive = ZipFile.OpenRead(backupFile);
         foreach (var entry in archive.Entries)

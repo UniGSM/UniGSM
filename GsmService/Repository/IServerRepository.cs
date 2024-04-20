@@ -7,9 +7,9 @@ public interface IServerRepository : IDisposable
 {
     IEnumerable<Server> GetServers();
     Task<PagedList<Server>> GetServers(QueryStringParameters parameters);
-    ValueTask<Server?> GetServerById(int serverId);
+    ValueTask<Server?> GetServerById(string serverId);
     internal Task InsertServer(Server server);
-    internal Task DeleteServer(int serverId);
+    internal Task DeleteServer(string serverId);
     internal void UpdateServer(Server server);
     internal Task Save();
 }

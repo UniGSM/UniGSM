@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using GsmApi;
 using GsmApi.Authentication;
 using GsmApi.Extensions;
@@ -29,7 +30,6 @@ builder.Services.AddSingleton<ResticUtil>();
 builder.Services.AddSingleton<RconClient>();
 builder.Services.AddTransient<CronJob>();
 builder.Services.AddTransient<TaskJob>();
-builder.Services.AddTransient<CpuJob>();
 builder.Services.AddQuartz(q =>
 {
     q.UseSimpleTypeLoader();
@@ -71,6 +71,13 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
         };
     });
+
+//set json serializer defaults
+JsonSerializerOptions options = new()
+{
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    WriteIndented = true
+};
 
 var app = builder.Build();
 

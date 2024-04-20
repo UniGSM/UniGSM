@@ -1,15 +1,20 @@
 ﻿using System.Net;
+using GsmCore.Config;
 using GsmCore.Model;
 
 namespace GsmApi.Service;
 
 public interface IServerService
 {
-    public Task<Server> CreateServer(string name, IPAddress bindIp, uint gamePort, uint queryPort, uint slots = 32);
+    public Task<Server> CreateServer(string templateName, string name, IPAddress bindIp, uint gamePort,
+        uint queryPort,
+        uint slots = 32);
 
-    public Task StartServer(Server server);
+    public Task<bool> StartServer(Server server);
 
-    public Task StopServer(Server server);
+    public Task<bool> StopServer(Server server);
+
+    public Task KillServer(Server server);
 
     public Task RestartServer(Server server);
 
@@ -25,6 +30,4 @@ public interface IServerService
 
     public Task UpdateGameData(Server server, string name, uint slots, string map, string rconPassword,
         string additionalStartParams);
-
-    public int GetProcessForServer(int serverId);
 }
