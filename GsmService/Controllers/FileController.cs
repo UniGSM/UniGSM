@@ -26,6 +26,11 @@ public class FileController : ControllerBase
 
         directory = Path.Combine(rootPath, directory);
 
+        if (!IsPathAllowed(directory, serverId))
+        {
+            return Forbid();
+        }
+
         var files = Directory.GetFiles(directory);
         var folders = Directory.GetDirectories(directory);
         var serverFiles = new ServerFile[files.Length + folders.Length];
@@ -80,6 +85,11 @@ public class FileController : ControllerBase
         var fileInfo = new FileInfo(fileName);
         if (!fileInfo.Exists) return NotFound();
 
+        if (!IsPathAllowed(fileName, serverId))
+        {
+            return Forbid();
+        }
+
         return PhysicalFile(fileName, MimeTypeMap.GetMimeType(fileInfo.Extension), true);
     }
 
@@ -94,7 +104,14 @@ public class FileController : ControllerBase
         var fileInfo = new FileInfo(Path.Combine(rootPath, fileRenameParams.From));
         if (!fileInfo.Exists) return NotFound();
 
-        fileInfo.MoveTo(Path.Combine(rootPath, fileRenameParams.To));
+        var path = Path.Combine(rootPath, fileRenameParams.To);
+
+        if (!IsPathAllowed(path, serverId))
+        {
+            return Forbid();
+        }
+
+        fileInfo.MoveTo(path);
 
         return Ok();
     }
@@ -110,7 +127,13 @@ public class FileController : ControllerBase
         var fileInfo = new FileInfo(Path.Combine(rootPath, fileRenameParams.From));
         if (!fileInfo.Exists) return NotFound();
 
-        fileInfo.CopyTo(Path.Combine(rootPath, fileRenameParams.To));
+        var path = Path.Combine(rootPath, fileRenameParams.To);
+        if (!IsPathAllowed(path, serverId))
+        {
+            return Forbid();
+        }
+
+        fileInfo.CopyTo(path);
 
         return Ok();
     }
@@ -128,6 +151,11 @@ public class FileController : ControllerBase
 
         var fileInfo = new FileInfo(fileName);
         if (!fileInfo.Exists) return NotFound();
+
+        if (!IsPathAllowed(fileName, serverId))
+        {
+            return Forbid();
+        }
 
         await using var fs = new FileStream(fileName, FileMode.Create);
         await content.CopyToAsync(fs);
@@ -147,6 +175,11 @@ public class FileController : ControllerBase
         {
             var path = Path.Combine(rootPath, fileDeleteParams.Root, fileName);
             FileInfo fileInfo = new(path);
+            if (!IsPathAllowed(path, serverId))
+            {
+                return Forbid();
+            }
+
             fileInfo.Delete();
         }
 
@@ -162,6 +195,11 @@ public class FileController : ControllerBase
         }
 
         var path = Path.Combine(rootPath, folderCreateParams.Root, folderCreateParams.Name);
+        if (!IsPathAllowed(path, serverId))
+        {
+            return Forbid();
+        }
+
         Directory.CreateDirectory(path);
 
         return Ok();
@@ -178,9 +216,20 @@ public class FileController : ControllerBase
         fileName = HttpUtility.UrlDecode(fileName);
         fileName = Path.Combine(rootPath, fileName);
 
+        if (!IsPathAllowed(fileName, serverId))
+        {
+            return Forbid();
+        }
+
         await using var fs = new FileStream(fileName, FileMode.Create);
         await content.CopyToAsync(fs);
 
         return Ok();
+    }
+
+    private bool IsPathAllowed(string path, string serverId)
+    {
+        PathUtil.TryGetServerDataPath(serverId, out var serverRootPath);
+        return path.StartsWith(serverRootPath);
     }
 }
