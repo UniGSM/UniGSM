@@ -1,4 +1,4 @@
-﻿namespace GsmApi.DTO;
+﻿namespace GsmCore.Params;
 
 public class ServerBodyParams
 {

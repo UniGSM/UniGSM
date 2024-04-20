@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text.Json;
-using GsmApi.DTO;
 using GsmApi.Repositories;
 using GsmApi.Services;
 using GsmCore.Models;
