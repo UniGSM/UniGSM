@@ -1,6 +1,5 @@
 using System.Reflection;
 using System.Text;
-using System.Text.Json;
 using Docker.DotNet;
 using GsmApi;
 using GsmApi.Authentication;
@@ -19,7 +18,6 @@ using Quartz;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddWindowsService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,7 +43,6 @@ builder.Services.AddQuartz(q =>
     q.UseInMemoryStore();
     q.UseDefaultThreadPool(tp => { tp.MaxConcurrency = 10; });
 });
-
 
 builder.Services.AddDbContext<GsmDbContext>();
 builder.Services.AddControllers();
@@ -77,16 +74,9 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JWT:ValidAudience"],
             ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!))
         };
     });
-
-//set json serializer defaults
-JsonSerializerOptions options = new()
-{
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    WriteIndented = true
-};
 
 var app = builder.Build();
 
