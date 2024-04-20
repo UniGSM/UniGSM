@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace GsmApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/settings")]
 [Authorize]
 public class SettingController(GsmDbContext context, ISettingRepository settingRepository) : ControllerBase
 {

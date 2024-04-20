@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace GsmApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/server")]
 [Authorize]
 public class ServerController(
     ILogger logger,

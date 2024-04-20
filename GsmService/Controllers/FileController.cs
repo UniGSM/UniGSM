@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace GsmApi.Controllers;
 
 [ApiController]
-[Route("server/{serverId:required}/file")]
+[Route("api/server/{serverId:required}/file")]
 [Authorize]
 public class FileController : ControllerBase
 {

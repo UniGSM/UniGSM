@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GsmApi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/auth")]
 [ApiController]
 public class AuthenticateController(
     UserManager<ApplicationUser> userManager,
