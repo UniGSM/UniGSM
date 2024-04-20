@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:GsmManager.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GsmManager.Views.ServerView" x:DataType="viewModels:ServerViewModel">
+    <DataGrid ItemsSource="{Binding Servers}" IsReadOnly="True"
+              SelectedItem="{Binding SelectedServer}" DoubleTapped="InputElement_OnDoubleTapped">
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Stop Server"></MenuItem>
+                <MenuItem Header="Start Server"></MenuItem>
+                <MenuItem Header="Restart Server"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Edit Server"></MenuItem>
+                <MenuItem Header="Delete Server" Foreground="Red"></MenuItem>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Status">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border Background="Green" Height="24" Margin="10 0" CornerRadius="6">
+                            <TextBlock Foreground="White" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Online" Margin="10 0"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Address" SortMemberPath="BindIp">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel VerticalAlignment="Center" Margin="10 0">
+                            <TextBlock Text="{Binding BindIp}"></TextBlock>
+                            <TextBlock Text=":"></TextBlock>
+                            <TextBlock Text="{Binding GamePort}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

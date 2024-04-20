@@ -1,0 +1,25 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:GsmManager.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+        Width="500" Height="500"
+        x:Class="GsmManager.Views.ConnectWindow"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        x:DataType="viewModels:ConnectWindowViewModel"
+        Title="DayZ GSM Connection Manager">
+    <StackPanel Margin="40">
+        <Label Margin="0 0 0 0" HorizontalAlignment="Center" FontSize="34" FontWeight="SemiBold" Content="DayZ GSM"></Label>
+        <Label Margin="0 0 0 40" HorizontalAlignment="Center" Content="Development Branch"></Label>
+        <Border IsVisible="{Binding ConnectionError}" Background="Red" Margin="10 10 10 10" CornerRadius="4" Padding="10 10 10 10">
+            <Label Foreground="White">Fehler beim Verbinden</Label>
+        </Border>
+        
+        <TextBox IsEnabled="{Binding !IsConnecting}" Name="ServerAddress" Watermark="Address" Text="{Binding Address}"  Margin="10"></TextBox>
+        <TextBox IsEnabled="{Binding !IsConnecting}" Name="Username" Text="{Binding Username}" Watermark="Username"  Margin="10" ></TextBox>
+        <TextBox IsEnabled="{Binding !IsConnecting}" Name="Password" Text="{Binding Password}" Watermark="Password" PasswordChar="•"  Margin="10"></TextBox>
+        <Button Padding="50 10 50 10" IsEnabled="{Binding !IsConnecting}" Command="{Binding Connect}" HorizontalAlignment="Right" Margin="10 10 10 0">Login</Button>
+    </StackPanel>
+</Window>

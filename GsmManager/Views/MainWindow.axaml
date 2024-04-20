@@ -3,18 +3,33 @@
         xmlns:vm="using:GsmManager.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:GsmManager.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="GsmManager.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+        Closed="MainWindowOnClosed"
         Title="GsmManager">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Connection">
+                <MenuItem Header="Connect..."></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Exit">
+                    <MenuItem.Icon>
+                        <PathIcon Height="16" Width="16" Data="{StaticResource Icons.Window.Close}"></PathIcon>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <views:ServerView DataContext="{Binding ServerViewModel}"></views:ServerView>
+    </DockPanel>
 
 </Window>

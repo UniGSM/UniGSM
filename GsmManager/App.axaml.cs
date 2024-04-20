@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using GsmManager.Events;
 using GsmManager.ViewModels;
 using GsmManager.Views;
 
@@ -17,9 +18,14 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
+            var connectWindowViewModel = new ConnectWindowViewModel();
+            desktop.MainWindow = new ConnectWindow()
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = connectWindowViewModel,
+            };
+            connectWindowViewModel.RequestClose += (sender, args) =>
+            { 
+                desktop.MainWindow.Hide();
             };
         }
 
