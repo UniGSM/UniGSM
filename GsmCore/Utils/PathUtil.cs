@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using GsmCore.Models;
 
 namespace GsmCore.Utils;
 
@@ -22,5 +23,11 @@ public static class PathUtil
         }
 
         return _appDataPath;
+    }
+
+    public static bool TryGetServerDataPath(string serverId, out string path)
+    {
+        path = Path.Combine(GetAppDataPath(), "servers", serverId);
+        return Directory.Exists(path);
     }
 }

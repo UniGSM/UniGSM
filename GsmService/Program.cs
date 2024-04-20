@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Docker.DotNet;
 using GsmApi;
 using GsmApi.Authentication;
 using GsmApi.Extensions;
@@ -30,6 +31,14 @@ builder.Services.AddSingleton<ResticUtil>();
 builder.Services.AddSingleton<RconClient>();
 builder.Services.AddTransient<CronJob>();
 builder.Services.AddTransient<TaskJob>();
+
+var dockerUri = OperatingSystem.IsLinux()
+    ? new Uri("unix:///var/run/docker.sock")
+    : new Uri("npipe://./pipe/docker_engine");
+
+var dockerClient = new DockerClientConfiguration(dockerUri).CreateClient();
+builder.Services.AddSingleton<IDockerClient>(dockerClient);
+
 builder.Services.AddQuartz(q =>
 {
     q.UseSimpleTypeLoader();

@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using GsmCore.DTO;
 using GsmCore.Params;
+using GsmCore.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MimeTypes;
@@ -9,15 +10,21 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace GsmApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("server/{serverId:required}/file")]
 [Authorize]
 public class FileController : ControllerBase
 {
     [SwaggerResponse(200, "List of files", typeof(ServerFile[]))]
     [HttpGet("list", Name = nameof(ListFiles))]
-    public IActionResult ListFiles([FromQuery] string directory)
+    public IActionResult ListFiles([FromQuery] string directory, string serverId)
     {
         directory = HttpUtility.UrlDecode(directory);
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
+        directory = Path.Combine(rootPath, directory);
 
         var files = Directory.GetFiles(directory);
         var folders = Directory.GetDirectories(directory);
@@ -61,9 +68,15 @@ public class FileController : ControllerBase
     [SwaggerResponse(200, "The raw file contents", typeof(FileStreamResult))]
     [SwaggerResponse(404, "File not found")]
     [HttpGet("contents", Name = nameof(FileContents))]
-    public IActionResult FileContents([FromQuery] string fileName)
+    public IActionResult FileContents([FromQuery] string fileName, string serverId)
     {
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
         fileName = HttpUtility.UrlDecode(fileName);
+        fileName = Path.Combine(rootPath, fileName);
         var fileInfo = new FileInfo(fileName);
         if (!fileInfo.Exists) return NotFound();
 
@@ -71,31 +84,48 @@ public class FileController : ControllerBase
     }
 
     [HttpPut("rename", Name = nameof(RenameFile))]
-    public IActionResult RenameFile([FromBody] FileRenameParams fileRenameParams)
+    public IActionResult RenameFile([FromBody] FileRenameParams fileRenameParams, string serverId)
     {
-        var fileInfo = new FileInfo(fileRenameParams.From);
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
+        var fileInfo = new FileInfo(Path.Combine(rootPath, fileRenameParams.From));
         if (!fileInfo.Exists) return NotFound();
 
-        fileInfo.MoveTo(fileRenameParams.To);
+        fileInfo.MoveTo(Path.Combine(rootPath, fileRenameParams.To));
 
         return Ok();
     }
 
     [HttpPost("copy", Name = nameof(CopyFile))]
-    public IActionResult CopyFile([FromBody] FileRenameParams fileRenameParams)
+    public IActionResult CopyFile([FromBody] FileRenameParams fileRenameParams, string serverId)
     {
-        var fileInfo = new FileInfo(fileRenameParams.From);
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
+        var fileInfo = new FileInfo(Path.Combine(rootPath, fileRenameParams.From));
         if (!fileInfo.Exists) return NotFound();
 
-        fileInfo.CopyTo(fileRenameParams.To);
+        fileInfo.CopyTo(Path.Combine(rootPath, fileRenameParams.To));
 
         return Ok();
     }
 
     [HttpPost("write", Name = nameof(WriteFile))]
-    public async Task<IActionResult> WriteFile([FromQuery] string fileName, [FromBody] Stream content)
+    public async Task<IActionResult> WriteFile([FromQuery] string fileName, [FromBody] Stream content, string serverId)
     {
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
         fileName = HttpUtility.UrlDecode(fileName);
+        fileName = Path.Combine(rootPath, fileName);
+
         var fileInfo = new FileInfo(fileName);
         if (!fileInfo.Exists) return NotFound();
 
@@ -106,11 +136,16 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("delete", Name = nameof(DeleteFiles))]
-    public IActionResult DeleteFiles([FromBody] FileDeleteParams fileDeleteParams)
+    public IActionResult DeleteFiles([FromBody] FileDeleteParams fileDeleteParams, string serverId)
     {
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
         foreach (var fileName in fileDeleteParams.Files)
         {
-            var path = Path.Combine(fileDeleteParams.Root, fileName);
+            var path = Path.Combine(rootPath, fileDeleteParams.Root, fileName);
             FileInfo fileInfo = new(path);
             fileInfo.Delete();
         }
@@ -119,18 +154,29 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("create-folder", Name = nameof(CreateFolder))]
-    public IActionResult CreateFolder([FromBody] FolderCreateParams folderCreateParams)
+    public IActionResult CreateFolder([FromBody] FolderCreateParams folderCreateParams, string serverId)
     {
-        var path = Path.Combine(folderCreateParams.Root, folderCreateParams.Name);
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
+        var path = Path.Combine(rootPath, folderCreateParams.Root, folderCreateParams.Name);
         Directory.CreateDirectory(path);
 
         return Ok();
     }
 
     [HttpPost("file-upload", Name = nameof(UploadFile))]
-    public async Task<IActionResult> UploadFile([FromQuery] string fileName, [FromBody] Stream content)
+    public async Task<IActionResult> UploadFile([FromQuery] string fileName, [FromBody] Stream content, string serverId)
     {
+        if (!PathUtil.TryGetServerDataPath(serverId, out var rootPath))
+        {
+            return NotFound();
+        }
+
         fileName = HttpUtility.UrlDecode(fileName);
+        fileName = Path.Combine(rootPath, fileName);
 
         await using var fs = new FileStream(fileName, FileMode.Create);
         await content.CopyToAsync(fs);
