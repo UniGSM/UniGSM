@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using GsmCore.Util;
+using GsmCore.Utils;
 
 namespace GsmCore.ApiClient;
 

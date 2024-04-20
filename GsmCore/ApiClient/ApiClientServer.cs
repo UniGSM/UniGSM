@@ -1,6 +1,6 @@
-﻿using GsmCore.Model;
-using GsmCore.Param;
-using GsmCore.Util;
+﻿using GsmCore.Models;
+using GsmCore.Params;
+using GsmCore.Utils;
 
 namespace GsmCore.ApiClient;
 

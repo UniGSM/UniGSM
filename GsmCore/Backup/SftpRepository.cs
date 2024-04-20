@@ -1,5 +1,5 @@
 ﻿using System.IO.Compression;
-using GsmCore.Model;
+using GsmCore.Models;
 using Microsoft.Extensions.Logging;
 using Renci.SshNet;
 

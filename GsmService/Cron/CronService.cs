@@ -1,4 +1,4 @@
-﻿using GsmApi.Job;
+﻿using GsmApi.Jobs;
 using Quartz;
 using Quartz.Impl;
 

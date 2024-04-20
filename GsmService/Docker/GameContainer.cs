@@ -1,7 +1,7 @@
 ﻿using Docker.DotNet;
 using Docker.DotNet.Models;
 using GsmCore.Config;
-using GsmCore.Util;
+using GsmCore.Utils;
 
 namespace GsmApi.Docker;
 

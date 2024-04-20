@@ -1,4 +1,4 @@
-﻿using GsmCore.Model;
+﻿using GsmCore.Models;
 
 namespace GsmCore.Backup;
 

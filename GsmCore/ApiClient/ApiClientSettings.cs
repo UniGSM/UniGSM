@@ -1,5 +1,5 @@
-﻿using GsmCore.Model;
-using GsmCore.Util;
+﻿using GsmCore.Models;
+using GsmCore.Utils;
 
 namespace GsmCore.ApiClient;
 

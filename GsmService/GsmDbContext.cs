@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using GsmApi.Authentication;
-using GsmCore.Model;
+using GsmCore.Models;
+using GsmCore.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ public class GsmDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<BackupRepository>()
             .Property(e => e.Data)
             .HasConversion(
-                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
-                v => JsonSerializer.Deserialize<Dictionary<string, object>>(v, (JsonSerializerOptions)null));
+                v => JsonSerializerWrapper.SerializeCamelCase(v),
+                v => JsonSerializerWrapper.DeserializeCamelCase<Dictionary<string, object>>(v)!);
     }
 }

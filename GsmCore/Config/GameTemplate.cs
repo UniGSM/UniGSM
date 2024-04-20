@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using GsmCore.Model;
 
 namespace GsmCore.Config;
 

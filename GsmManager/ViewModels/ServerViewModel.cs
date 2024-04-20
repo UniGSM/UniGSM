@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using GsmCore.Model;
+using GsmCore.Models;
 
 namespace GsmManager.ViewModels;
 

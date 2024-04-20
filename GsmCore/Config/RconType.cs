@@ -1,4 +1,4 @@
-﻿namespace GsmCore.Model;
+﻿namespace GsmCore.Config;
 
 public enum RconType : byte
 {

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using GsmCore.Model;
+using GsmCore.Models;
 using Microsoft.Extensions.Logging;
 using SMBLibrary;
 using SMBLibrary.Client;

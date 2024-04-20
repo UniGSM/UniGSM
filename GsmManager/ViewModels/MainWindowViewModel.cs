@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DynamicData;
 using GsmCore.ApiClient;
-using GsmCore.Model;
 
 namespace GsmManager.ViewModels;
 

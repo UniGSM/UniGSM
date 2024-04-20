@@ -1,0 +1,37 @@
+﻿#escape=`
+ARG tag=ltsc2022
+
+FROM mcr.microsoft.com/windows/servercore:${tag} AS builder
+SHELL ["PowerShell.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+WORKDIR C:\Installer
+
+### Install Microsoft Visual C++ 2015 Redistributable Update 3
+ADD https://download.microsoft.com/download/0/6/4/064F84EA-D1DB-4EAA-9A5C-CC2F0FF6A638/vc_redist.x64.exe vc_redist.x64.exe
+RUN Start-Process -FilePath '.\vc_redist.x64.exe' -ArgumentList '/install /passive /norestart' -Wait;
+
+### Install 7zip
+RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'));
+RUN choco install 7zip -y
+
+### Install DirectX (for XAPOFX1_5.dll and X3DAudio1_7.dll)
+ADD https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe directx_Jun2010_redist.exe
+RUN Start-Process -FilePath 'C:\Program Files\7-Zip\7z.exe' -ArgumentList 'e .\directx_Jun2010_redist.exe -o.\directx' -Wait;
+RUN Start-Process -FilePath 'C:\Program Files\7-Zip\7z.exe' -ArgumentList 'e .\directx\Feb2010_X3DAudio_x86.cab -o.\dll' -Wait;
+RUN Start-Process -FilePath 'C:\Program Files\7-Zip\7z.exe' -ArgumentList 'e .\directx\Jun2010_XAudio_x86.cab -o.\dll' -Wait;
+
+## setting up server
+FROM mcr.microsoft.com/windows/servercore:${tag} AS server
+SHELL ["PowerShell.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+COPY --from=builder C:\windows\system32\msvcp140.dll C:\windows\system32
+COPY --from=builder C:\windows\system32\vcruntime140.dll C:\windows\system32
+COPY --from=builder C:\installer\dll\x3daudio1_7.dll C:\windows\system32
+COPY --from=builder C:\installer\dll\xapofx1_5.dll C:\windows\system32
+
+COPY run.ps1 C:\
+
+VOLUME C:\GameServer
+VOLUME C:\steamcmd
+
+WORKDIR C:\GameServer
+
+ENTRYPOINT [ "PowerShell.exe", "-Command", "C:\\run.ps1" ]
