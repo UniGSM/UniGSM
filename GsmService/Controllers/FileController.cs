@@ -15,6 +15,8 @@ namespace GsmApi.Controllers;
 public class FileController : ControllerBase
 {
     [SwaggerResponse(200, "List of files", typeof(ServerFile[]))]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpGet("list", Name = nameof(ListFiles))]
     public IActionResult ListFiles([FromQuery] string directory, string serverId)
     {
@@ -70,8 +72,9 @@ public class FileController : ControllerBase
         return Ok(serverFiles);
     }
 
-    [SwaggerResponse(200, "The raw file contents", typeof(FileStreamResult))]
+    [SwaggerResponse(200, "The raw file contents")]
     [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpGet("contents", Name = nameof(FileContents))]
     public IActionResult FileContents([FromQuery] string fileName, string serverId)
     {
@@ -93,6 +96,9 @@ public class FileController : ControllerBase
         return PhysicalFile(fileName, MimeTypeMap.GetMimeType(fileInfo.Extension), true);
     }
 
+    [SwaggerResponse(200, "File renamed")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPut("rename", Name = nameof(RenameFile))]
     public IActionResult RenameFile([FromBody] FileRenameParams fileRenameParams, string serverId)
     {
@@ -116,6 +122,9 @@ public class FileController : ControllerBase
         return Ok();
     }
 
+    [SwaggerResponse(200, "File copied")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPost("copy", Name = nameof(CopyFile))]
     public IActionResult CopyFile([FromBody] FileRenameParams fileRenameParams, string serverId)
     {
@@ -138,6 +147,9 @@ public class FileController : ControllerBase
         return Ok();
     }
 
+    [SwaggerResponse(200, "File written")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPost("write", Name = nameof(WriteFile))]
     public async Task<IActionResult> WriteFile([FromQuery] string fileName, [FromBody] Stream content, string serverId)
     {
@@ -163,6 +175,9 @@ public class FileController : ControllerBase
         return Ok();
     }
 
+    [SwaggerResponse(200, "File(s) deleted")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPost("delete", Name = nameof(DeleteFiles))]
     public IActionResult DeleteFiles([FromBody] FileDeleteParams fileDeleteParams, string serverId)
     {
@@ -186,6 +201,9 @@ public class FileController : ControllerBase
         return Ok();
     }
 
+    [SwaggerResponse(200, "Folder created")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPost("create-folder", Name = nameof(CreateFolder))]
     public IActionResult CreateFolder([FromBody] FolderCreateParams folderCreateParams, string serverId)
     {
@@ -205,6 +223,9 @@ public class FileController : ControllerBase
         return Ok();
     }
 
+    [SwaggerResponse(200, "File uploaded")]
+    [SwaggerResponse(404, "File not found")]
+    [SwaggerResponse(403, "Forbidden")]
     [HttpPost("file-upload", Name = nameof(UploadFile))]
     public async Task<IActionResult> UploadFile([FromQuery] string fileName, [FromBody] Stream content, string serverId)
     {
