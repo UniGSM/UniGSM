@@ -72,6 +72,7 @@ public class FileController : ControllerBase
         return Ok(serverFiles);
     }
 
+    [Produces("application/octet-stream")]
     [SwaggerResponse(200, "The raw file contents")]
     [SwaggerResponse(404, "File not found")]
     [SwaggerResponse(403, "Forbidden")]
